@@ -1,0 +1,167 @@
+<div.app>
+
+    <div.container>
+
+        <div.row.justify-content-center>
+
+            <div.col.col-md-6>
+
+                <div.row>
+
+                    <div.col-12>
+
+                        <app-header title="marko todos" />
+
+                    </div>
+
+                    <div.col-12>
+
+                        <form on-submit(e => e.preventDefault())>
+
+                            <app-input placeholder="What needs to be done?" on-enter('handleInputValue') />
+
+                            <div.app__items>
+
+                                <if(state.items.length)>
+
+                                    <ul.app__row>
+
+                                        <for|item, index| of=state.items>
+
+                                            <li class="app__list" key=item.uuid>
+
+                                                <div>a</div>
+
+                                                <span.app__list__title>${ item.title }</span>
+
+                                                <div>b</div>
+
+                                            </li>
+
+                                        </for>
+
+                                    </ul>
+
+                                </if>
+
+                                <else>
+
+                                    nenhum item lançado
+
+                                </else>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+import { v4 as uuidv4 } from 'uuid'
+
+class {
+
+    onCreate(){
+
+        this.state = {
+
+            items : []
+
+        }
+
+    }
+
+    /* */
+
+    handleInputValue(value){
+
+        this.state.items.push({
+
+            uuid : uuidv4(),
+            title : value,
+            done : false
+
+        })
+
+        this.setStateDirty('items')
+
+    }
+
+}
+
+style {
+
+    @import '@/scss/components.scss';
+
+    .app {
+
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background: $md-grey-200;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__items {
+
+            margin-top: -6px;
+            padding-top: 6px;
+
+            background: white;
+
+            border-radius: 6px;
+
+        }
+
+        &__row {
+
+            margin: 0;
+            padding: 0;
+
+            list-style: none;
+
+        }
+
+        &__list {
+
+            padding: $theme-padding;
+
+            display: flex;
+
+            align-items: center;
+
+            &:not(:last-of-type){
+
+                border-bottom: 1px solid $md-grey-100;
+
+            }
+
+            &__title {
+
+                font-family: 'Quicksand', sans-serif;
+                @include font-sizer(16);
+                color: $md-grey-700;
+
+            }
+
+        }
+
+    }
+
+}

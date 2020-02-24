@@ -1,0 +1,37 @@
+<input.input type="text" placeholder=input.placeholder on-keydown('emitValue') required />
+
+class {
+
+    emitValue(e){
+
+        if(e.key === 'Enter' && e.target.value){
+
+            this.emit('enter', e.target.value)
+
+            setTimeout(() => e.target.value = '')
+
+        }
+
+    }
+
+}
+
+style {
+
+    @import '@/scss/components.scss';
+
+    .input {
+
+        width: 100%;
+
+        padding: $theme-padding;
+
+        font-family: 'Quicksand', sans-serif;
+        @include font-sizer(16);
+
+        border-radius: 6px;
+        box-shadow: 0 0 20px rgba(black, .1);
+
+    }
+
+}
