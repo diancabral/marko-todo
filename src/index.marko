@@ -24,7 +24,7 @@ $ {
 
 <div.app>
 
-    <app-icons />
+    <app-icons key="icons" />
 
     <div.container style={ maxHeight: '100vh' }>
 
@@ -228,6 +228,10 @@ class {
 
         this.addFakeTasks()
 
+    }
+
+    onMount() {
+        this.getComponent('icons').getEl();
     }
 
     /* */
