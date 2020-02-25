@@ -1,16 +1,42 @@
+$ {
+
+    const getFilteredItems = () => {
+
+        let items = state.items
+
+        if(state.filter === 'active'){
+
+            items = state.items.filter(({ done }) => !done)
+
+        } else if(state.filter === 'completed'){
+
+            items = state.items.filter(({ done }) => done)
+
+        }
+
+        return items
+
+    }
+
+    const getTotalItemsLeft = getFilteredItems().filter(({ done }) => !done).length
+
+}
+
 <div.app>
 
-    <div.container>
+    <app-icons />
+
+    <div.container style={ maxHeight: '100vh' }>
 
         <div.row.justify-content-center>
 
-            <div.col.col-md-6>
+            <div.col.col-md-7>
 
                 <div.row>
 
                     <div.col-12>
 
-                        <app-header title="marko todos" />
+                        <app-header title="marko todo ✔️" />
 
                     </div>
 
@@ -18,7 +44,7 @@
 
                         <form on-submit(e => e.preventDefault())>
 
-                            <app-input placeholder="What needs to be done?" on-enter('handleInputValue') />
+                            <app-input placeholder="What needs to be done now? 🤔" on-enter('handleInputValue') />
 
                             <div.app__items>
 
@@ -26,15 +52,48 @@
 
                                     <ul.app__row>
 
-                                        <for|item, index| of=state.items>
+                                        <for|item, index| of=getFilteredItems()>
 
                                             <li class="app__list" key=item.uuid>
 
-                                                <div>a</div>
+                                                <div class="row align-items-center no-gutters">
 
-                                                <span.app__list__title>${ item.title }</span>
+                                                    <div class="col-auto pr-3">
 
-                                                <div>b</div>
+                                                        <div.app__list__icon class={
+
+                                                            'app__list__icon--done' : item.done
+
+                                                        }>
+
+                                                            <app-icon glyph=(item.done ? `check_box` : `check_box_outline_blank`) on-click('completeTask', item.uuid) />
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col pr-3">
+
+                                                        <span class=[
+
+                                                            'app__list__title',
+                                                            item.done && 'app__list__title--done'
+
+                                                        ]>${ item.title }</span>
+
+                                                    </div>
+
+                                                    <div class="col-auto">
+
+                                                        <div.app__list__icon.app__list__icon--close>
+
+                                                            <app-icon glyph="close" on-click('deleteTask', item.uuid) />
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
 
                                             </li>
 
@@ -42,11 +101,97 @@
 
                                     </ul>
 
+                                    <div.app__actions>
+
+                                        <div class="row">
+
+                                            <div class="col-4">
+
+                                                <if(getTotalItemsLeft)>
+
+                                                    <span.app__actions__trigger>${ getTotalItemsLeft } item${(getTotalItemsLeft > 1 ? 's' : null)} left</span>
+
+                                                </if>
+
+                                                <else>
+
+                                                    <span.app__actions__trigger>🎉 All tasks completed</span>
+
+                                                </else>
+
+                                            </div>
+
+                                            <div class="col">
+
+                                                <div class="row align-items-center no-gutters">
+
+                                                    <div class="col-auto pr-3">
+
+                                                        <a.app__actions__trigger.app__actions__trigger--link
+
+                                                        class=(state.filter === 'all' && 'app__actions__trigger--active')
+                                                        href="#"
+
+                                                        on-click('changeFilter', 'all')
+
+                                                        >All</a>
+
+                                                    </div>
+
+                                                    <div class="col-auto pr-3">
+
+                                                        <a.app__actions__trigger.app__actions__trigger--link
+
+                                                        class=(state.filter === 'active' && 'app__actions__trigger--active')
+                                                        href="#"
+
+                                                        on-click('changeFilter', 'active')
+
+                                                        >Active</a>
+
+                                                    </div>
+
+                                                    <div class="col-auto">
+
+                                                        <a.app__actions__trigger.app__actions__trigger--link
+
+                                                        class=(state.filter === 'completed' && 'app__actions__trigger--active')
+                                                        href="#"
+
+                                                        on-click('changeFilter', 'completed')
+
+                                                        >Completed</a>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <if(getTotalItemsLeft !== state.items.length)>
+
+                                                <div class="col-auto">
+
+                                                    <a.app__actions__trigger.app__actions__trigger--link href="#" on-click('deleteCompletedTasks')>Clear completed</a>
+
+                                                </div>
+
+                                            </if>
+
+                                        </div>
+
+                                    </div>
+
                                 </if>
 
                                 <else>
 
-                                    nenhum item lançado
+                                    <div.app__items__empty>
+
+                                        <app-icon.app__items__empty__icon glyph="done_all" />
+                                        <div.app__items__empty__description>Type something in the field above to add an awesome task!</div>
+
+                                    </div>
 
                                 </else>
 
@@ -74,17 +219,38 @@ class {
 
         this.state = {
 
-            items : []
+            items : [],
+            filter : 'all'
 
         }
+
+        /* */
+
+        this.addFakeTasks()
 
     }
 
     /* */
 
+    addFakeTasks(){
+
+        [...new Array(10).keys()].forEach(val => {
+
+            this.state.items.unshift({
+
+                uuid : uuidv4(),
+                title : `Tarefa de teste ${val + 1}`,
+                done : false
+
+            })
+
+        })
+
+    }
+
     handleInputValue(value){
 
-        this.state.items.push({
+        this.state.items.unshift({
 
             uuid : uuidv4(),
             title : value,
@@ -93,6 +259,50 @@ class {
         })
 
         this.setStateDirty('items')
+
+    }
+
+    completeTask(id){
+
+        let task = this.state.items.find(({ uuid }) => id === uuid)
+
+        if(task !== -1){
+
+            task.done = !task.done
+
+            this.setStateDirty('items')
+
+        }
+
+    }
+
+    deleteTask(id){
+
+        let task = this.state.items.findIndex(({ uuid }) => id === uuid)
+
+        if(task !== -1){
+
+            this.state.items.splice(task, 1)
+
+            this.setStateDirty('items')
+
+        }
+
+    }
+
+    deleteCompletedTasks(){
+
+        let actives = this.state.items.filter(({ done }) => !done)
+
+        this.state.items = actives
+
+        this.setStateDirty('items')
+
+    }
+
+    changeFilter(filter){
+
+        this.state.filter = filter
 
     }
 
@@ -112,20 +322,111 @@ style {
         width: 100%;
         height: 100%;
 
+        padding: $theme-padding * 2 0;
+
         background: $md-grey-200;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        overflow: auto;
+
+        animation: appBackgroundChange 120s linear infinite;
+
+        @keyframes appBackgroundChange {
+
+            0% { background: $md-red-500; }
+            #{(100 / 16) * 1}% { background: $md-pink-500; }
+            #{(100 / 16) * 2}% { background: $md-purple-500; }
+            #{(100 / 16) * 3}% { background: $md-deep-purple-500; }
+            #{(100 / 16) * 4}% { background: $md-indigo-500; }
+            #{(100 / 16) * 5}% { background: $md-blue-500; }
+            #{(100 / 16) * 6}% { background: $md-light-blue-500; }
+            #{(100 / 16) * 7}% { background: $md-cyan-500; }
+            #{(100 / 16) * 8}% { background: $md-teal-500; }
+            #{(100 / 16) * 9}% { background: $md-green-500; }
+            #{(100 / 16) * 10}% { background: $md-light-green-500; }
+            #{(100 / 16) * 11}% { background: $md-lime-500; }
+            #{(100 / 16) * 12}% { background: $md-yellow-500; }
+            #{(100 / 16) * 13}% { background: $md-amber-500; }
+            #{(100 / 16) * 14}% { background: $md-orange-500; }
+            #{(100 / 16) * 15}% { background: $md-deep-orange-500; }
+            #{(100 / 16) * 16}% { background: $md-red-500; }
+
+        }
 
         &__items {
 
-            margin-top: -6px;
-            padding-top: 6px;
+            position: relative;
+
+            margin-top: -8px;
+            padding-top: 8px;
 
             background: white;
 
             border-radius: 6px;
+
+            &::before,
+            &::after {
+
+                content: '';
+
+                position: absolute;
+
+                top: 100%;
+                left: 0;
+
+                width: 100%;
+                height: 50px;
+
+                background: rgba(white, .5);
+
+                border-radius: 6px;
+
+                z-index: -1;
+
+                transform: translateY(-85%) scale(0.975);
+
+            }
+
+            &::after {
+
+                background: rgba(white, .25);
+
+                transform: translateY(-70%) scale(0.95);
+
+            }
+
+            &__empty {
+
+                padding: $theme-padding * 4 $theme-padding * 2;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                &__icon {
+
+                    $size: 130px;
+
+                    width: $size;
+                    height: $size;
+
+                    margin-bottom: $theme-padding * 2;
+
+                    fill: $md-grey-200;
+
+                }
+
+                &__description {
+
+                    font-family: 'Quicksand', sans-serif;
+                    @include font-sizer(24);
+                    text-align: center;
+                    color: $md-grey-500;
+                    line-height: 1;
+
+                }
+
+            }
 
         }
 
@@ -142,13 +443,31 @@ style {
 
             padding: $theme-padding;
 
-            display: flex;
+            border-bottom: 1px solid $md-grey-100;
 
-            align-items: center;
+            transition: background .2s ease;
 
-            &:not(:last-of-type){
+            animation: appListColorFade 1s linear;
 
-                border-bottom: 1px solid $md-grey-100;
+            @keyframes appListColorFade {
+
+                from {
+
+                    background: $md-yellow-100;
+
+                }
+
+                to {
+
+                    background: rgba($md-yellow-200, 0)
+
+                }
+
+            }
+
+            &:hover {
+
+                background: rgba($md-grey-100, .5);
 
             }
 
@@ -157,6 +476,116 @@ style {
                 font-family: 'Quicksand', sans-serif;
                 @include font-sizer(16);
                 color: $md-grey-700;
+                line-height: 1;
+
+                &--done {
+
+                    text-decoration: line-through;
+
+                    color: $md-grey-500;
+
+                }
+
+            }
+
+            &:hover &__icon--close {
+
+                opacity: 1;
+
+            }
+
+            &__icon {
+
+                svg {
+
+                    $size: 24px;
+
+                    position: relative;
+
+                    width: $size;
+                    height: $size;
+
+                    fill: $md-grey-500;
+
+                    cursor: pointer;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    transition: fill .2s ease;
+
+                }
+
+                &:hover:not(&--done) svg {
+
+                    fill: $md-grey-700;
+
+                }
+
+                &--done svg {
+
+                    fill: $md-green-500;
+
+                }
+
+                &--close {
+
+                    opacity: 0;
+
+                    transition: .2s ease;
+                    transition-property: fill, opacity;
+
+                }
+
+                &--close svg {
+
+                    fill: $md-red-500;
+
+                }
+
+                &--close:hover svg {
+
+                    fill: $md-red-700;
+
+                }
+
+            }
+
+        }
+
+        &__actions {
+
+            padding: $theme-padding;
+
+            &__trigger {
+
+                font-family: 'Quicksand', sans-serif;
+                @include font-sizer(14);
+                font-weight: 400;
+                color: $md-grey-600;
+                line-height: 1;
+
+                &--link {
+
+                    padding: 2px 5px;
+
+                    border: 1px solid transparent;
+                    border-radius: 6px;
+
+                    &:hover {
+
+                        color: $md-grey-900;
+
+                    }
+
+                }
+
+                &--active {
+
+                    border-color: $md-grey-400
+
+                }
 
             }
 
