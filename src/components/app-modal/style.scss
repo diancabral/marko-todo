@@ -1,0 +1,64 @@
+.modal {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(black, .5);
+    // backdrop-filter: blur(2px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10;
+
+    &__wrapper {
+
+        background: white;
+
+        border-radius: 8px;
+
+        // animation: slideUp .3s ease;
+        //
+        // transition: .2s ease;
+        // transition-property: opacity, transform;
+
+        // backface-visibility: hidden;
+        // perspective: 1000;
+
+        box-shadow: 0 0 50px rgba(black, .1);
+
+        // @keyframes slideUp {
+        //
+        //     from {
+        //
+        //         opacity: 0;
+        //         transform: translateY(10px);
+        //
+        //     }
+        //
+        //     to {
+        //
+        //         opacity: 1;
+        //         transform: translateY(0);
+        //
+        //     }
+        //
+        // }
+
+    }
+
+    &__content {
+
+        max-height: 80vh;
+
+        overflow: auto;
+
+    }
+
+}

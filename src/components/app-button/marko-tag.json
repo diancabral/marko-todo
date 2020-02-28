@@ -1,0 +1,23 @@
+{
+
+    "@disabled" : "boolean",
+    "@loading" : "boolean",
+    "@color" : {
+
+        "type" : "string",
+        "default-value" : "red-500"
+
+    },
+    "@light" : "boolean",
+    "@icon" : "string",
+    "@full" : "boolean",
+    "@small" : "boolean",
+    "@label" : "string",
+    "@type" : {
+
+        "type" : "string",
+        "default-value" : "button"
+
+    }
+
+}

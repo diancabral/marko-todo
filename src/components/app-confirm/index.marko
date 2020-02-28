@@ -1,0 +1,26 @@
+<app-modal key="modal" col="4">
+
+    <div class="confirm">
+
+        <div class="confirm__title">Atenção</div>
+        <div class="confirm__description">${ input.description }</div>
+
+        <div class="row no-gutters">
+
+            <div class="col-auto pr-4">
+
+                <app-button color="grey-700" light label="Não" on-click('close') />
+
+            </div>
+
+            <div class="col-auto">
+
+                <app-button color="red" label="Sim" on-click('emitOk') />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</app-modal>

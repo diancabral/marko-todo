@@ -1,0 +1,282 @@
+@import '@/scss/components.scss';
+
+.app {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: $theme-padding * 2 0;
+
+    background: $md-grey-200;
+
+    overflow: auto;
+
+    animation: appBackgroundChange 120s linear infinite;
+
+    @keyframes appBackgroundChange {
+
+        0% { background: $md-red-500; }
+        #{(100 / 16) * 1}% { background: $md-pink-500; }
+        #{(100 / 16) * 2}% { background: $md-purple-500; }
+        #{(100 / 16) * 3}% { background: $md-deep-purple-500; }
+        #{(100 / 16) * 4}% { background: $md-indigo-500; }
+        #{(100 / 16) * 5}% { background: $md-blue-500; }
+        #{(100 / 16) * 6}% { background: $md-light-blue-500; }
+        #{(100 / 16) * 7}% { background: $md-cyan-500; }
+        #{(100 / 16) * 8}% { background: $md-teal-500; }
+        #{(100 / 16) * 9}% { background: $md-green-500; }
+        #{(100 / 16) * 10}% { background: $md-light-green-500; }
+        #{(100 / 16) * 11}% { background: $md-lime-500; }
+        #{(100 / 16) * 12}% { background: $md-yellow-500; }
+        #{(100 / 16) * 13}% { background: $md-amber-500; }
+        #{(100 / 16) * 14}% { background: $md-orange-500; }
+        #{(100 / 16) * 15}% { background: $md-deep-orange-500; }
+        #{(100 / 16) * 16}% { background: $md-red-500; }
+
+    }
+
+    &__items {
+
+        position: relative;
+
+        margin-top: -8px;
+        padding-top: 8px;
+
+        background: white;
+
+        border-radius: 6px;
+
+        &::before,
+        &::after {
+
+            content: '';
+
+            position: absolute;
+
+            top: 100%;
+            left: 0;
+
+            width: 100%;
+            height: 50px;
+
+            background: rgba(white, .5);
+
+            border-radius: 6px;
+
+            z-index: -1;
+
+            transform: translateY(-85%) scale(0.975);
+
+        }
+
+        &::after {
+
+            background: rgba(white, .25);
+
+            transform: translateY(-70%) scale(0.95);
+
+        }
+
+        &__empty {
+
+            padding: $theme-padding * 4 $theme-padding * 2;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            &__icon {
+
+                $size: 130px;
+
+                width: $size;
+                height: $size;
+
+                margin-bottom: $theme-padding * 2;
+
+                fill: $md-grey-200;
+
+            }
+
+            &__description {
+
+                font-family: 'Quicksand', sans-serif;
+                @include font-sizer(24);
+                text-align: center;
+                color: $md-grey-500;
+                line-height: 1;
+
+            }
+
+        }
+
+    }
+
+    &__row {
+
+        margin: 0;
+        padding: 0;
+
+        list-style: none;
+
+    }
+
+    &__list {
+
+        padding: $theme-padding;
+
+        border-bottom: 1px solid $md-grey-100;
+
+        transition: background .2s ease;
+
+        animation: appListColorFade 1s linear;
+
+        @keyframes appListColorFade {
+
+            from {
+
+                background: $md-yellow-100;
+
+            }
+
+            to {
+
+                background: rgba($md-yellow-200, 0)
+
+            }
+
+        }
+
+        &:hover {
+
+            background: rgba($md-grey-100, .5);
+
+        }
+
+        &__title {
+
+            font-family: 'Quicksand', sans-serif;
+            @include font-sizer(16);
+            color: $md-grey-700;
+            line-height: 1;
+
+            &--done {
+
+                text-decoration: line-through;
+
+                color: $md-grey-500;
+
+            }
+
+        }
+
+        &:hover &__icon--close {
+
+            opacity: 1;
+
+        }
+
+        &__icon {
+
+            svg {
+
+                $size: 24px;
+
+                position: relative;
+
+                width: $size;
+                height: $size;
+
+                fill: $md-grey-500;
+
+                cursor: pointer;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                transition: fill .2s ease;
+
+            }
+
+            &:hover:not(&--done) svg {
+
+                fill: $md-grey-700;
+
+            }
+
+            &--done svg {
+
+                fill: $md-green-500;
+
+            }
+
+            &--close {
+
+                opacity: 0;
+
+                transition: .2s ease;
+                transition-property: fill, opacity;
+
+            }
+
+            &--close svg {
+
+                fill: $md-red-500;
+
+            }
+
+            &--close:hover svg {
+
+                fill: $md-red-700;
+
+            }
+
+        }
+
+    }
+
+    &__actions {
+
+        padding: $theme-padding;
+
+        &__trigger {
+
+            font-family: 'Quicksand', sans-serif;
+            @include font-sizer(14);
+            font-weight: 400;
+            color: $md-grey-600;
+            line-height: 1;
+
+            &--link {
+
+                padding: 2px 5px;
+
+                border: 1px solid transparent;
+                border-radius: 6px;
+
+                &:hover {
+
+                    color: $md-grey-900;
+
+                }
+
+            }
+
+            &--active {
+
+                border-color: $md-grey-400
+
+            }
+
+        }
+
+    }
+
+}

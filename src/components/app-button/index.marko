@@ -1,0 +1,27 @@
+$ {
+
+    const colorDefault = component.colorDefault()
+    const withLabel = component.withLabel()
+
+}
+
+<button.button on-click('emitClick') class=[
+
+    withLabel && 'button--padding',
+    input.small && 'button--small'
+
+] type=input.type style={
+
+    color: !input.light ? 'white' : `var(--md-${colorDefault})`
+
+}>
+
+    <div.button__background style={
+
+        backgroundColor : input.light ? `var(--md-grey-200)` : `var(--md-${colorDefault})`
+
+    }></div>
+
+    ${ input.label }
+
+</button>

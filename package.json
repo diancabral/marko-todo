@@ -48,6 +48,7 @@
     "Opera >= 30"
   ],
   "dependencies": {
+    "animejs": "^3.1.0",
     "bootstrap": "^4.4.1",
     "marko": "^4.18.48",
     "material-colors": "^1.2.6",

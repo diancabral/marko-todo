@@ -26,7 +26,7 @@ module.exports = {
 
     mode : process.env.NODE_ENV,
 
-    entry : './src/index.js',
+    entry : './src/app.js',
 
     output : {
 
@@ -167,11 +167,11 @@ module.exports = {
 
         ],
 
-        // splitChunks: {
-        //
-        //     chunks: 'all'
-        //
-        // }
+        splitChunks: {
+
+            chunks: 'all'
+
+        }
 
     }
 

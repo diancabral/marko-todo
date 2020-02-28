@@ -1,0 +1,30 @@
+@import '@/scss/components.scss';
+
+.confirm {
+
+    padding: $theme-padding * 2;
+
+    &__title {
+
+        margin-bottom: $theme-padding;
+
+        font-family: 'Quicksand', sans-serif;
+        @include font-sizer(26);
+        color: $md-red-500;
+        font-weight: 600;
+        line-height: 1;
+
+    }
+
+    &__description {
+
+        margin-bottom: $theme-padding;
+
+        font-family: 'Raleway', sans-serif;
+        @include font-sizer(15);
+        line-height: 1;
+        color: $md-grey-700;
+
+    }
+
+}

@@ -1,0 +1,51 @@
+import animation from '@/utils/animation'
+
+<div.modal
+
+on-attach((e, el) => {
+
+    animation.fadeIn(e, el, null, 0)
+    animation.translateUp(e, component.getEl('content'), { translateY : [5, 0] }, 0)
+
+})
+
+on-detach((e, el) => {
+
+    animation.fadeOut(e, el, null, 0)
+    animation.scaleDown(e, component.getEl('content'), { duration: 200 }, 0)
+
+})
+
+>
+
+    <div class="container-fluid">
+
+        <div class="row justify-content-center">
+
+            <div class=[
+
+                input.colLg && `col-lg-${input.colLg}`,
+                input.colMd && `col-md-${input.colMd}`,
+                input.colSm && `col-sm-${input.colSm}`,
+                input.colXs && `col-xs-${input.colXs}`,
+                input.col && `col-${input.col}`
+
+            ]>
+
+                <div.modal__wrapper key="content">
+
+                    <div.modal__content>
+
+                         <${ input.renderBody } />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
