@@ -12,7 +12,8 @@ const MarkoPlugin = require('@marko/webpack/plugin').default
 
 /* */
 
-const devServerPort = Math.floor(1000 + Math.random() * 9000)
+// const devServerPort = Math.floor(1000 + Math.random() * 9000)
+const devServerPort = 3000
 const development = process.env.NODE_ENV === 'development'
 
 /* */

@@ -251,34 +251,34 @@ describe('Unit Tests', () => {
 
 })
 
-describe('Component Tests', () => {
-
-    afterEach(cleanup);
-
-    test('Should delete a task when click in X icon', async () => {
-
-        const { container } = await render(Template);
-
-        const appOverlay = document.createElement('div')
-
-        appOverlay.id = 'app-overlay'
-
-        document.body.appendChild(appOverlay)
-
-        const tasksElements = container.querySelectorAll('.app__list')
-        const deleteElement = tasksElements[1].querySelector('.app__list__icon--close svg')
-
-        await fireEvent.click(deleteElement)
-        await waitFor(() => container.querySelector('.confirm'));
-
-        const confirm = container.querySelector('.confirm')
-        const ok = confirm.querySelectorAll('button')
-
-        await fireEvent.click(ok[0])
-        await waitFor(() => !container.querySelector('.confirm'));
-
-        expect(tasksElements).toHaveLength(9)
-
-    })
-
-})
+// describe('Component Tests', () => {
+//
+//     afterEach(cleanup);
+//
+//     test('Should delete a task when click in X icon', async () => {
+//
+//         const { container } = await render(Template);
+//
+//         const appOverlay = document.createElement('div')
+//
+//         appOverlay.id = 'app-overlay'
+//
+//         document.body.appendChild(appOverlay)
+//
+//         const tasksElements = container.querySelectorAll('.app__list')
+//         const deleteElement = tasksElements[1].querySelector('.app__list__icon--close svg')
+//
+//         await fireEvent.click(deleteElement)
+//         await waitFor(() => container.querySelector('.confirm'));
+//
+//         const confirm = container.querySelector('.confirm')
+//         const ok = confirm.querySelectorAll('button')
+//
+//         await fireEvent.click(ok[0])
+//         await waitFor(() => !container.querySelector('.confirm'));
+//
+//         expect(tasksElements).toHaveLength(9)
+//
+//     })
+//
+// })
