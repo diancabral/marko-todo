@@ -154,7 +154,7 @@ const defaultOptionsAnimations = {
 
 const animate = (type, e, el, customOptions, delay = 0, state) => {
 
-    console.log(el)
+    // console.log(el)
 
     if(e && Object.entries(e).length) e.preventDefault()
 

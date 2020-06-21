@@ -1,195 +1,114 @@
-$ {
+$ const getFilteredItems = component.getFilteredItems();
+$ const getTotalItemsLeft = component.getTotalItemsLeft();
 
-    const getFilteredItems = component.getFilteredItems()
-    const getTotalItemsLeft = component.getTotalItemsLeft()
+div.app
 
-}
+    app-icons key="icons"
 
-<div.app>
+    div.container style={ maxHeight: '100vh' }
 
-    <app-icons key="icons" />
+        div.row.justify-content-center
 
-    <div.container style={ maxHeight: '100vh' }>
+            div.col.col-md-7
 
-        <div.row.justify-content-center>
+                div.row
 
-            <div.col.col-md-7>
+                    div.col-12
 
-                <div.row>
+                        app-header title="marko todo ✔️"
 
-                    <div.col-12>
+                    div.col-12
 
-                        <app-header title="marko todo ✔️" />
+                        form on-submit(e => e.preventDefault())
 
-                    </div>
+                            app-input placeholder="What needs to be done now? 🤔" minlength=4 on-enter('handleInputValue')
 
-                    <div.col-12>
+                            div.app__items
 
-                        <form on-submit(e => e.preventDefault())>
+                                if(state.items.length)
 
-                            <app-input placeholder="What needs to be done now? 🤔" on-enter('handleInputValue') />
+                                    ul.app__row
 
-                            <div.app__items>
+                                        for|item, index| of=getFilteredItems
 
-                                <if(state.items.length)>
+                                            li class="app__list" key=item.uuid
 
-                                    <ul.app__row>
+                                                div class="row align-items-center no-gutters"
 
-                                        <for|item, index| of=getFilteredItems>
+                                                    div class="col-auto pr-3"
 
-                                            <li class="app__list" key=item.uuid>
-
-                                                <div class="row align-items-center no-gutters">
-
-                                                    <div class="col-auto pr-3">
-
-                                                        <div.app__list__icon class={
+                                                        div.app__list__icon class={
 
                                                             'app__list__icon--done' : item.done
 
-                                                        }>
+                                                        }
 
-                                                            <app-icon glyph=(item.done ? `check_box` : `check_box_outline_blank`) on-click('completeTask', item.uuid) />
+                                                            app-icon glyph=(item.done ? `check_box` : `check_box_outline_blank`) on-click('completeTask', item.uuid)
 
-                                                        </div>
+                                                    div class="col pr-3"
 
-                                                    </div>
-
-                                                    <div class="col pr-3">
-
-                                                        <span class=[
+                                                        span class=[
 
                                                             'app__list__title',
                                                             item.done && 'app__list__title--done'
 
-                                                        ]>${ item.title }</span>
+                                                        ]
 
-                                                    </div>
+                                                            -- ${ item.title }
 
-                                                    <div class="col-auto">
+                                                    div class="col-auto"
 
-                                                        <div.app__list__icon.app__list__icon--close>
+                                                        div.app__list__icon.app__list__icon--close
 
-                                                            <app-icon glyph="close" on-click('deleteTask', item.uuid) />
+                                                            app-icon glyph="close" on-click('deleteTask', item.uuid)
 
-                                                        </div>
+                                    div.app__actions
 
-                                                    </div>
+                                        div class="row"
 
-                                                </div>
+                                            div class="col-4"
 
-                                            </li>
+                                                if(getTotalItemsLeft)
 
-                                        </for>
+                                                    span.app__actions__trigger
 
-                                    </ul>
+                                                        -- ${ getTotalItemsLeft } item${(getTotalItemsLeft > 1 ? 's' : null)} left
 
-                                    <div.app__actions>
+                                                else
 
-                                        <div class="row">
+                                                    span.app__actions__trigger -- 🎉 All tasks completed
 
-                                            <div class="col-4">
+                                            div class="col"
 
-                                                <if(getTotalItemsLeft)>
+                                                div class="row align-items-center no-gutters"
 
-                                                    <span.app__actions__trigger>${ getTotalItemsLeft } item${(getTotalItemsLeft > 1 ? 's' : null)} left</span>
+                                                    div class="col-auto pr-3"
 
-                                                </if>
+                                                        a.app__actions__trigger.app__actions__trigger--link class=(state.filter === 'all' && 'app__actions__trigger--active') href="#" on-click('changeFilter', 'all')
 
-                                                <else>
+                                                            -- All
 
-                                                    <span.app__actions__trigger>🎉 All tasks completed</span>
+                                                    div class="col-auto pr-3"
 
-                                                </else>
+                                                        a.app__actions__trigger.app__actions__trigger--link class=(state.filter === 'active' && 'app__actions__trigger--active') href="#" on-click('changeFilter', 'active')
 
-                                            </div>
+                                                            -- Active
 
-                                            <div class="col">
+                                                    div class="col-auto"
 
-                                                <div class="row align-items-center no-gutters">
+                                                        a.app__actions__trigger.app__actions__trigger--link class=(state.filter === 'completed' && 'app__actions__trigger--active') href="#" on-click('changeFilter', 'completed')
 
-                                                    <div class="col-auto pr-3">
+                                                            -- Completed
 
-                                                        <a.app__actions__trigger.app__actions__trigger--link
+                                            if(getTotalItemsLeft !== state.items.length)
 
-                                                        class=(state.filter === 'all' && 'app__actions__trigger--active')
-                                                        href="#"
+                                                div class="col-auto"
 
-                                                        on-click('changeFilter', 'all')
+                                                    a.app__actions__trigger.app__actions__trigger--link href="#" on-click('deleteCompletedTasks') -- Clear completed
 
-                                                        >All</a>
+                                else
 
-                                                    </div>
+                                    div.app__items__empty
 
-                                                    <div class="col-auto pr-3">
-
-                                                        <a.app__actions__trigger.app__actions__trigger--link
-
-                                                        class=(state.filter === 'active' && 'app__actions__trigger--active')
-                                                        href="#"
-
-                                                        on-click('changeFilter', 'active')
-
-                                                        >Active</a>
-
-                                                    </div>
-
-                                                    <div class="col-auto">
-
-                                                        <a.app__actions__trigger.app__actions__trigger--link
-
-                                                        class=(state.filter === 'completed' && 'app__actions__trigger--active')
-                                                        href="#"
-
-                                                        on-click('changeFilter', 'completed')
-
-                                                        >Completed</a>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                            <if(getTotalItemsLeft !== state.items.length)>
-
-                                                <div class="col-auto">
-
-                                                    <a.app__actions__trigger.app__actions__trigger--link href="#" on-click('deleteCompletedTasks')>Clear completed</a>
-
-                                                </div>
-
-                                            </if>
-
-                                        </div>
-
-                                    </div>
-
-                                </if>
-
-                                <else>
-
-                                    <div.app__items__empty>
-
-                                        <app-icon.app__items__empty__icon glyph="done_all" />
-                                        <div.app__items__empty__description>Type something in the field above to add an awesome task!</div>
-
-                                    </div>
-
-                                </else>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
+                                        app-icon.app__items__empty__icon glyph="done_all"
+                                        div.app__items__empty__description -- Type something in the field above to add an awesome task!

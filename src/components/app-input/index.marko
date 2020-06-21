@@ -1,4 +1,4 @@
-<input.input type="text" placeholder=input.placeholder on-keydown('emitValue') required />
+<input.input type="text" placeholder=input.placeholder minlength=input.minlength on-keydown('emitValue') required />
 
 class {
 
@@ -8,7 +8,7 @@ class {
 
             this.emit('enter', e.target.value)
 
-            setTimeout(() => e.target.value = '')
+            if(e.target.value.length > 3) setTimeout(() => e.target.value = '')
 
         }
 

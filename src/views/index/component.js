@@ -74,6 +74,13 @@ module.exports = {
 
     handleInputValue(value){
 
+        if(!value) return false
+        if(value.length < 4) return false
+
+        const searchExistingTask = this.state.items.find(({ title }) => title === value)
+
+        if(searchExistingTask) return false
+
         this.state.items.unshift({
 
             uuid : uuidv4(),
@@ -123,21 +130,23 @@ module.exports = {
 
             })
 
-            component.on('ok', () => {
-
-                let task = this.state.items.findIndex(({ uuid }) => id === uuid)
-
-                if(task !== -1){
-
-                    this.state.items.splice(task, 1)
-
-                    this.setStateDirty('items')
-
-                }
-
-            })
+            component.on('ok', () => this.handleDeleteTask(id))
 
         })
+
+    },
+
+    handleDeleteTask(id){
+
+        let task = this.state.items.findIndex(({ uuid }) => id === uuid)
+
+        if(task !== -1){
+
+            this.state.items.splice(task, 1)
+
+            this.setStateDirty('items')
+
+        }
 
     },
 
